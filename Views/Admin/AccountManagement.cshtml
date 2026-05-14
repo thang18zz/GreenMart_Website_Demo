@@ -1,0 +1,224 @@
+﻿@model IEnumerable<PTDA_Demo.Models.User>
+@{
+    ViewBag.Title = "AccountManagement";
+    Layout = "~/Views/Shared/_GreenMart_Dashboard_layout.cshtml";
+}
+
+@if (TempData["WarningMessage"] != null)
+{
+    <div class="bg-tertiary-container/20 border border-tertiary text-on-surface-variant p-3 rounded-md mb-4 text-sm flex items-center gap-2">
+        <span class="material-symbols-outlined text-tertiary">info</span>
+        @TempData["WarningMessage"]
+    </div>
+}
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+
+    <!-- Tiêu đề trang -->
+    <div class="flex justify-between items-center">
+        <h1 class="text-2xl font-bold text-gray-900">Danh sách tài khoản</h1>
+        <button onclick="location.href='@Url.Action("CreateAccount","Admin")'" class="bg-primary hover:bg-primary-container text-white px-4 py-2 rounded-lg font-medium shadow transition-colors flex items-center gap-2">
+            <span class="material-symbols-outlined text-sm">add</span> Thêm tài khoản mới
+        </button>
+    </div>
+
+    <!-- Scenario 6: Lỗi tải dữ liệu do mất kết nối máy chủ -->
+    @if (ViewBag.Error != null)
+    {
+        <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-6 rounded-md shadow-sm">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <span class="material-symbols-outlined text-red-500 mr-3">error</span>
+                    <p class="text-red-700 font-medium">@ViewBag.Error</p>
+                </div>
+                <!-- Nút tải lại trang -->
+                <a href="@Url.Action("AccountManagement", "Admin")" class="text-red-700 font-bold hover:underline flex items-center gap-1">
+                    <span class="material-symbols-outlined text-sm">refresh</span> Tải lại
+                </a>
+            </div>
+        </div>
+    }
+    else
+    {
+        <!-- Bảng hiển thị dữ liệu -->
+        <div class="bg-white shadow-md rounded-lg overflow-hidden border border-gray-200">
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200 text-sm text-left">
+                    <thead class="bg-gray-50 text-gray-600 font-semibold uppercase text-xs">
+                        <!-- Scenario 1: Bảng hiển thị đầy đủ các cột thông tin cơ bản -->
+                        <tr>
+                            <th class="px-6 py-4">ID</th>
+                            <th class="px-6 py-4">Họ Tên</th>
+                            <th class="px-6 py-4">Email</th>
+                            <th class="px-6 py-4">Số điện thoại</th>
+                            <th class="px-6 py-4">Vai trò</th>
+                            <th class="px-6 py-4 text-center">Trạng thái</th>
+                            <th class="px-6 py-4">Ngày tạo</th>
+                            <th class="px-6 py-4">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200 bg-white">
+                        @if (!Model.Any())
+                        {
+                            <tr>
+                                <td colspan="8" class="px-6 py-8 text-center text-gray-500">
+                                    Không có dữ liệu tài khoản nào để hiển thị.
+                                </td>
+                            </tr>
+                        }
+
+                        @foreach (var item in Model)
+                        {
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-6 py-4 text-gray-900 font-medium">#@item.UserID</td>
+                                <td class="px-6 py-4 text-gray-800">@item.FullName</td>
+                                <td class="px-6 py-4 text-gray-600">@item.Email</td>
+                                <td class="px-6 py-4 text-gray-600">@item.PhoneNumber</td>
+                                <td class="px-6 py-4">
+                                    @* Giả sử RoleID: 1=Admin, 2=Manager, 3=Staff, 4=Customer *@
+                                    @if (item.RoleID == 1)
+                                    {<span class="font-semibold text-purple-600">Admin</span> }
+                                    else if (item.RoleID == 2)
+                                    { <span class="font-semibold text-blue-600">Manager</span> }
+                                    else if (item.RoleID == 3)
+                                    { <span class="font-semibold text-teal-600">Staff</span> }
+                                    else
+                                    { <span class="text-gray-500">Customer</span>}
+                                </td>
+
+                                <td class="px-6 py-4 text-center">
+                                    <!-- Scenario 3: Hiển thị đúng trạng thái của tài khoản -->
+                                    @if (item.IsActive == true)
+                                    {
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 border border-green-200">
+                                            Đang hoạt động
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 border border-red-200">
+                                            Đã khóa
+                                        </span>
+                                    }
+                                </td>
+
+                                <td class="px-6 py-4 text-gray-500">
+                                    @(item.CreatedAt.HasValue ? item.CreatedAt.Value.ToString("dd/MM/yyyy HH:mm") : "N/A")
+                                </td>
+
+                                <td class="px-6 py-4 flex items-center space-x-4">
+
+                                    <a href="@Url.Action("EditAccount", "Admin", new { id = item.UserID })"
+                                       class="text-blue-600 hover:text-blue-800 font-medium flex items-center gap-1 transition-colors">
+                                        Sửa
+                                    </a>
+
+                                    @using (Html.BeginForm("ToggleAccountStatus", "Admin", FormMethod.Post, new { @class = "inline m-0 p-0", onsubmit = "return confirm('Bạn có chắc chắn muốn thay đổi trạng thái tài khoản này?');" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="targetUserId" value="@item.UserID" />
+
+                                        if (item.IsActive == true)
+                                        {
+                                            <button type="submit" class="text-orange-500 hover:text-orange-700 font-medium bg-transparent border-none p-0 cursor-pointer transition-colors">
+                                                Khóa
+                                            </button>
+                                        }
+                                        else
+                                        {
+                                            <button type="submit" class="text-green-600 hover:text-green-800 font-medium bg-transparent border-none p-0 cursor-pointer transition-colors">
+                                                Mở khóa
+                                            </button>
+                                        }
+                                    }
+
+                                    @using (Html.BeginForm("DeleteAccount", "Admin", FormMethod.Post, new { @class = "inline m-0 p-0" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="targetUserId" value="@item.UserID" />
+
+                                        // Kiểm tra xem ID của dòng này có trùng với ID của người đang đăng nhập không
+                                        bool isCurrentUser = (Session["UserID"] != null && (int)Session["UserID"] == item.UserID);
+
+                                        if (isCurrentUser)
+                                        {
+                                            <button type="button" class="text-gray-400 font-medium bg-transparent border-none p-0 cursor-not-allowed" title="Không thể xóa tài khoản của chính mình">
+                                                Xóa
+                                            </button>
+                                        }
+                                        else
+                                        {
+                                            <button type="submit" onclick="return confirm('Bạn có chắc chắn muốn xóa vĩnh viễn tài khoản này không? Hành động này không thể hoàn tác.');"
+                                                    class="text-red-600 hover:text-red-800 font-medium bg-transparent border-none p-0 cursor-pointer transition-colors">
+                                                Xóa
+                                            </button>
+                                        }
+                                    }
+                                </td>
+
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Scenario 2: Phân trang (Pagination) -->
+            @if (ViewBag.TotalPages > 1)
+            {
+                <div class="px-6 py-4 bg-white border-t border-gray-200 flex items-center justify-between sm:px-6">
+                    <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                        <div>
+                            <p class="text-sm text-gray-700">
+                                Đang hiển thị trang <span class="font-medium text-primary">@ViewBag.CurrentPage</span>
+                                trên tổng số <span class="font-medium">@ViewBag.TotalPages</span> trang
+                            </p>
+                        </div>
+                        <div>
+                            <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+
+                                <!-- Nút Previous -->
+                                @if (ViewBag.CurrentPage > 1)
+                                {
+                                    <a href="@Url.Action("AccountManagement", new { page = ViewBag.CurrentPage - 1 })" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                        <span class="sr-only">Previous</span>
+                                        <span class="material-symbols-outlined text-sm">chevron_left</span>
+                                    </a>
+                                }
+
+                                <!-- Vòng lặp in ra các số trang -->
+                                @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                                {
+                                    if (i == ViewBag.CurrentPage)
+                                    {
+                                        <!-- Highlight trang hiện tại (Active) -->
+                                        <span class="relative inline-flex items-center px-4 py-2 border border-primary bg-primary-container/20 text-sm font-bold text-primary z-10">
+                                            @i
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <!-- Các trang khác -->
+                                        <a href="@Url.Action("AccountManagement", new { page = i })" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+                                            @i
+                                        </a>
+                                    }
+                                }
+
+                                <!-- Nút Next -->
+                                @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+                                {
+                                    <a href="@Url.Action("AccountManagement", new { page = ViewBag.CurrentPage + 1 })" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                        <span class="sr-only">Next</span>
+                                        <span class="material-symbols-outlined text-sm">chevron_right</span>
+                                    </a>
+                                }
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+

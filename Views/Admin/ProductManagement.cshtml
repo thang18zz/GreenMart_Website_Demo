@@ -1,0 +1,168 @@
+﻿@model IEnumerable<PTDA_Demo.Models.Product>
+@{
+    ViewBag.Title = "ProductManagement";
+    Layout = "~/Views/Shared/_GreenMart_Dashboard_layout.cshtml";
+}
+
+@if (TempData["WarningMessage"] != null)
+{
+    <div class="bg-tertiary-container/20 border border-tertiary text-on-surface-variant p-3 rounded-md mb-4 text-sm flex items-center gap-2">
+        <span class="material-symbols-outlined text-tertiary">info</span>
+        @TempData["WarningMessage"]
+    </div>
+}
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+
+    <div class="flex justify-between items-center">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-900">Danh sách sản phẩm</h1>
+            <p class="text-sm text-gray-500 mt-1">Quản lý kho hàng và thông tin sản phẩm</p>
+        </div>
+        <button onclick="location.href='@Url.Action("CreateProduct","Admin")'" class="bg-primary hover:bg-primary-container text-white px-4 py-2 rounded-lg font-medium shadow transition-colors flex items-center gap-2">
+            <span class="material-symbols-outlined text-sm">add</span> Thêm sản phẩm
+        </button>
+    </div>
+
+    @if (ViewBag.Error != null)
+    {
+        <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-md shadow-sm">
+            <p class="text-red-700 font-medium">@ViewBag.Error</p>
+        </div>
+    }
+    else
+    {
+        <div class="bg-white shadow-md rounded-lg border border-gray-200 overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200 text-sm text-left">
+                    <thead class="bg-gray-50 text-gray-600 font-semibold uppercase text-xs">
+                        <tr>
+                            <th class="px-6 py-4 w-16">ID</th>
+                            <th class="px-6 py-4">Hình ảnh</th>
+                            <th class="px-6 py-4">Tên sản phẩm</th>
+                            <th class="px-6 py-4">Danh mục</th>
+                            <th class="px-6 py-4 text-right">Giá bán</th>
+                            <th class="px-6 py-4 text-center">Tồn kho</th>
+                            <th class="px-6 py-4 text-center">Trạng thái</th>
+                            <th class="px-6 py-4 text-right">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200 bg-white">
+
+                        @if (!Model.Any())
+                        {
+                            <tr>
+                                <td colspan="8" class="px-6 py-12 text-center">
+                                    <span class="material-symbols-outlined text-gray-300 text-6xl mb-3 block">inventory_2</span>
+                                    <h3 class="text-lg font-medium text-gray-900">Chưa có sản phẩm nào</h3>
+                                    <p class="mt-1 text-gray-500">Hiện tại chưa có sản phẩm nào trong hệ thống.</p>
+                                    <div class="mt-4">
+                                        <button onclick="location.href='@Url.Action("CreateProduct","Admin")'" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary hover:bg-primary-container">
+                                            <span class="material-symbols-outlined text-sm mr-2">add</span> Thêm sản phẩm mới
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+
+                        @foreach (var item in Model)
+                        {
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-6 py-4 text-gray-900 font-medium">#@item.ProductID</td>
+
+                                <td class="px-6 py-4">
+                                    <img src="~/Content/Images/Products/@item.ImageURL"
+                                         onerror="this.onerror=null;this.src='https://placehold.co/100x100?text=No+Image';"
+                                         alt="@item.ProductName"
+                                         class="w-12 h-12 object-cover rounded-md border border-gray-200" />
+                                </td>
+
+                                <td class="px-6 py-4 font-semibold text-gray-800 max-w-[200px] truncate cursor-help" title="@item.ProductName">
+                                    @item.ProductName
+                                </td>
+
+                                <td class="px-6 py-4 text-gray-600">
+                                    @(item.Category != null ? item.Category.CategoryName : "Không xác định")
+                                </td>
+
+                                <td class="px-6 py-4 text-right font-medium text-gray-900">
+                                    @String.Format("{0:0,0} đ", item.Price)
+                                </td>
+
+                                <td class="px-6 py-4 text-center">
+                                    @if (item.StockQuantity == 0)
+                                    {
+                                        <span class="font-bold text-red-600">Hết hàng (0)</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="font-medium text-gray-900">@item.StockQuantity</span>
+                                    }
+                                </td>
+
+                                <td class="px-6 py-4 text-center">
+                                    @if (item.IsActive == true)
+                                    {
+                                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                            Đang bán
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600">
+                                            Ngừng bán
+                                        </span>
+                                    }
+                                </td>
+
+                                <td class="px-6 py-4 text-right space-x-3">
+                                    <a href="@Url.Action("EditProduct", "Admin", new { id = item.ProductID })" class="text-blue-600 hover:text-blue-800 font-medium">Sửa</a>
+
+                                    @using (Html.BeginForm("DeleteProduct", "Admin", FormMethod.Post, new { @class = "inline", onsubmit = "return confirm('Bạn có chắc chắn muốn xóa sản phẩm này?');" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="id" value="@item.ProductID" />
+                                        <button type="submit" class="text-red-600 hover:text-red-800 font-medium bg-transparent border-none p-0">Xóa</button>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            @if (ViewBag.TotalPages > 1)
+            {
+                <div class="px-6 py-4 bg-white border-t border-gray-200 flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-gray-700">Trang <span class="font-medium text-primary">@ViewBag.CurrentPage</span> / @ViewBag.TotalPages</p>
+                    </div>
+                    <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px">
+                        @if (ViewBag.CurrentPage > 1)
+                        {
+                            <a href="@Url.Action("ProductManagement", new { page = ViewBag.CurrentPage - 1 })" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-gray-500 hover:bg-gray-50"><span class="material-symbols-outlined text-sm">chevron_left</span></a>
+                        }
+
+                        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                        {
+                            if (i == ViewBag.CurrentPage)
+                            {
+                                <span class="relative inline-flex items-center px-4 py-2 border border-primary bg-primary-container/20 font-bold text-primary z-10">@i</span>
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("ProductManagement", new { page = i })" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-gray-700 hover:bg-gray-50">@i</a>
+                            }
+                        }
+
+                        @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+                        {
+                            <a href="@Url.Action("ProductManagement", new { page = ViewBag.CurrentPage + 1 })" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-gray-500 hover:bg-gray-50"><span class="material-symbols-outlined text-sm">chevron_right</span></a>
+                        }
+                    </nav>
+                </div>
+            }
+        </div>
+    }
+</div>
+

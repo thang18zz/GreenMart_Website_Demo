@@ -1,0 +1,248 @@
+﻿<!DOCTYPE html>
+
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>GreenMart Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface": "#fbf9f9",
+                        "on-secondary-fixed-variant": "#07521d",
+                        "error-container": "#ffdad6",
+                        "surface-tint": "#1b6d24",
+                        "on-background": "#1b1c1c",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-low": "#f5f3f3",
+                        "tertiary-fixed-dim": "#b1ceb2",
+                        "on-primary-fixed-variant": "#005312",
+                        "surface-variant": "#e3e2e2",
+                        "surface-container-high": "#e9e8e7",
+                        "error": "#ba1a1a",
+                        "outline-variant": "#bfcaba",
+                        "on-surface-variant": "#40493d",
+                        "on-tertiary-fixed": "#07200e",
+                        "on-primary": "#ffffff",
+                        "inverse-on-surface": "#f2f0f0",
+                        "tertiary-container": "#59745c",
+                        "inverse-surface": "#303031",
+                        "tertiary": "#415b45",
+                        "on-tertiary-fixed-variant": "#334d37",
+                        "on-tertiary": "#ffffff",
+                        "background": "#fbf9f9",
+                        "secondary-container": "#abf4ac",
+                        "on-error": "#ffffff",
+                        "inverse-primary": "#88d982",
+                        "on-tertiary-container": "#daf9db",
+                        "on-secondary": "#ffffff",
+                        "surface-dim": "#dbdad9",
+                        "tertiary-fixed": "#cceacd",
+                        "surface-container-highest": "#e3e2e2",
+                        "secondary-fixed-dim": "#90d792",
+                        "on-secondary-container": "#2e7238",
+                        "on-secondary-fixed": "#002107",
+                        "primary-fixed": "#a3f69c",
+                        "primary-container": "#2e7d32",
+                        "primary": "#0d631b",
+                        "primary-fixed-dim": "#88d982",
+                        "on-error-container": "#93000a",
+                        "surface-bright": "#fbf9f9",
+                        "surface-container": "#efeded",
+                        "secondary-fixed": "#abf4ac",
+                        "secondary": "#286b33",
+                        "outline": "#707a6c",
+                        "on-primary-fixed": "#002204",
+                        "on-surface": "#1b1c1c",
+                        "on-primary-container": "#cbffc2"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xs": "4px",
+                        "xl": "64px",
+                        "max-width": "1280px",
+                        "sm": "12px",
+                        "md": "24px",
+                        "base": "8px",
+                        "lg": "40px",
+                        "gutter": "24px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "48px"
+                    },
+                    "fontFamily": {
+                        "label-lg": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "500" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface h-screen flex overflow-hidden">
+    <!-- SideNavBar -->
+    <nav class="hidden md:flex bg-surface-container-low dark:bg-surface-container-lowest h-screen w-64 border-r border-outline-variant dark:border-outline py-md flex-col flex-shrink-0 z-30 transition-all duration-200 ease-in-out">
+        <div class="px-md mb-8 flex items-center gap-3">
+            <div class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center text-on-primary">
+                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">eco</span>
+            </div>
+            <div>
+                <h1 class="font-headline-md text-headline-md font-black text-primary leading-none">GreenMart</h1>
+                <p class="font-label-sm text-label-sm text-on-surface-variant">Admin Console</p>
+            </div>
+        </div>
+        <div class="flex-1 overflow-y-auto px-sm flex flex-col gap-1">
+            <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-primary dark:text-primary-fixed border-r-4 border-primary dark:border-primary-fixed font-bold bg-secondary-container/20 font-label-lg text-label-lg hover:bg-surface-container-high dark:hover:bg-surface-variant hover:text-on-surface transition-colors" href="#">
+                <span class="material-symbols-outlined">dashboard</span>
+                Dashboard
+            </a>
+            <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant dark:text-outline-variant font-label-lg text-label-lg hover:bg-surface-container-high dark:hover:bg-surface-variant hover:text-on-surface transition-colors" href="@Url.Action("AccountManagement","Admin")">
+                <span class="material-symbols-outlined">group</span>
+                Accounts
+            </a>
+            <a onclick="location.href='@Url.Action("CategoryManagement","Admin")'" class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant dark:text-outline-variant font-label-lg text-label-lg hover:bg-surface-container-high dark:hover:bg-surface-variant hover:text-on-surface transition-colors" href="#">
+                <span class="material-symbols-outlined">category</span>
+                Catalog
+            </a>
+            <a onclick="location.href='@Url.Action("ProductManagement","Admin")'" class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant dark:text-outline-variant font-label-lg text-label-lg hover:bg-surface-container-high dark:hover:bg-surface-variant hover:text-on-surface transition-colors" href="#">
+                <span class="material-symbols-outlined">inventory_2</span>
+                Inventory
+            </a>
+            <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant dark:text-outline-variant font-label-lg text-label-lg hover:bg-surface-container-high dark:hover:bg-surface-variant hover:text-on-surface transition-colors" href="#">
+                <span class="material-symbols-outlined">local_shipping</span>
+                Suppliers
+            </a>
+            <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant dark:text-outline-variant font-label-lg text-label-lg hover:bg-surface-container-high dark:hover:bg-surface-variant hover:text-on-surface transition-colors" href="#">
+                <span class="material-symbols-outlined">receipt_long</span>
+                Procurement
+            </a>
+            <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant dark:text-outline-variant font-label-lg text-label-lg hover:bg-surface-container-high dark:hover:bg-surface-variant hover:text-on-surface transition-colors" href="#">
+                <span class="material-symbols-outlined">receipt</span>
+                Orders
+            </a>
+            <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant dark:text-outline-variant font-label-lg text-label-lg hover:bg-surface-container-high dark:hover:bg-surface-variant hover:text-on-surface transition-colors" href="#">
+                <span class="material-symbols-outlined">analytics</span>
+                Reports
+            </a>
+        </div>
+        <div class="px-sm mt-auto pt-4 border-t border-outline-variant dark:border-outline flex flex-col gap-1">
+            <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant dark:text-outline-variant font-label-lg text-label-lg hover:bg-surface-container-high dark:hover:bg-surface-variant hover:text-on-surface transition-colors" href="#">
+                <span class="material-symbols-outlined">settings</span>
+                Settings
+            </a>
+            <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant dark:text-outline-variant font-label-lg text-label-lg hover:bg-surface-container-high dark:hover:bg-surface-variant hover:text-on-surface transition-colors" href="#">
+                <span class="material-symbols-outlined">contact_support</span>
+                Support
+            </a>
+        </div>
+    </nav>
+    <!-- Main Content Area -->
+    <div class="flex-1 flex flex-col overflow-hidden">
+        <!-- TopNavBar -->
+        <header class="flex justify-between items-center h-16 px-gutter w-full sticky top-0 z-40 bg-surface dark:bg-surface-dim shadow-sm">
+            <div class="flex items-center gap-4">
+                <button class="md:hidden text-on-surface-variant p-2 -ml-2 rounded-full hover:bg-surface-container-high transition-colors">
+                    <span class="material-symbols-outlined">menu</span>
+                </button>
+                <div class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed md:hidden">
+                    GreenMart Admin
+                </div>
+            </div>
+            <div class="flex items-center gap-4">
+
+                <div class="flex items-center gap-2">
+
+
+                    <!-- Profile Dropdown Trigger (Visual Only) -->
+                    <div class="flex items-center gap-4 ml-auto">
+                        <div class="relative ml-2 flex items-center gap-3">
+                            @* Hiển thị Tên người dùng đang đăng nhập từ Session *@
+                            <span class="font-medium text-sm">Chào, @Session["FullName"]</span>
+
+                            <button onclick="location.href='@Url.Action("Profile","Admin")'" class="flex items-center gap-2 focus:outline-none cursor-pointer">
+                                <img alt="Admin Avatar" class="w-8 h-8 rounded-full border border-outline-variant" src="https://ui-avatars.com/api/?name=@Session["FullName"]&background=0d631b&color=fff" />
+                            </button>
+
+                            @* Nút Đăng xuất *@
+                            <a href="@Url.Action("Logout", "Admin")" class="text-error hover:underline text-sm ml-2" title="Đăng xuất">
+                                <span class="material-symbols-outlined">logout</span>
+                            </a>
+                        </div>
+                    </div>
+        </header>
+        <!-- Canvas -->
+        <main class="flex-1 overflow-y-auto p-gutter lg:p-lg bg-background">
+            <div class="max-w-7xl mx-auto space-y-lg">
+                @RenderBody()
+
+            </div>
+        </main>
+    </div>
+</body>
+</html>
+
+<script>
+    // 1. Lấy thời gian sống tối đa của Session từ Server (ASP.NET)
+    // Cú pháp @Session.Timeout trả về số phút (ví dụ: 20).
+    // Chúng ta nhân với 60 * 1000 để đổi ra mili-giây (chuẩn của JavaScript).
+    const sessionTimeoutMinutes = @Session.Timeout;
+    const sessionTimeoutMs = sessionTimeoutMinutes * 60 * 1000;
+
+    // 2. Trừ hao đi khoảng 5 giây (5000ms) để client tự động out ngay trước khi server thực sự hủy
+    const redirectTimeMs = sessionTimeoutMs - 5000;
+
+    // 3. Đặt đồng hồ đếm ngược (setTimeout)
+    let timeoutTimer = setTimeout(function() {
+        // Hết giờ -> Tự động gọi URL AutoLogoutDueToTimeout
+        window.location.href = '@Url.Action("AutoLogoutDueToTimeout", "Admin")';
+    }, redirectTimeMs);
+
+    // 4. (NÂNG CAO) Reset lại đồng hồ nếu người dùng có tương tác với trang (bấm chuột, gõ phím)
+    // Điều này giống hệt các app ngân hàng: bạn cứ di chuột là nó đếm lại từ đầu.
+    function resetTimer() {
+        clearTimeout(timeoutTimer);
+        timeoutTimer = setTimeout(function() {
+            window.location.href = '@Url.Action("AutoLogoutDueToTimeout", "Admin")';
+        }, redirectTimeMs);
+    }
+
+    // Lắng nghe các thao tác của người dùng để reset đồng hồ
+    window.addEventListener('mousemove', resetTimer);
+    window.addEventListener('keydown', resetTimer);
+    window.addEventListener('click', resetTimer);
+    window.addEventListener('scroll', resetTimer);
+</script>

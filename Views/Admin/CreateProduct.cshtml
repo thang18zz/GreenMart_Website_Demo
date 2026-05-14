@@ -1,0 +1,132 @@
+﻿@model PTDA_Demo.Models.CreateProductViewModel
+@{
+    ViewBag.Title = "CreateProduct";
+    Layout = "~/Views/Shared/_GreenMart_Dashboard_layout.cshtml";
+}
+
+<div class="max-w-5xl mx-auto px-4 py-8">
+    <div class="bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden">
+
+        <div class="bg-surface-container-high px-6 py-5 border-b border-gray-200 flex items-center gap-3">
+            <span class="material-symbols-outlined text-primary text-[28px]">add_box</span>
+            <h2 class="text-xl font-bold text-gray-800">Thêm mới sản phẩm</h2>
+        </div>
+
+        <div class="p-6 sm:p-8">
+            @using (Html.BeginForm("CreateProduct", "Admin", FormMethod.Post, new { enctype = "multipart/form-data", @class = "space-y-6" }))
+            {
+                @Html.AntiForgeryToken()
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-2 space-y-6">
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Tên sản phẩm <span class="text-red-500">*</span></label>
+                        @Html.TextBoxFor(m => m.ProductName, new { @class = "w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-primary outline-none", placeholder = "Ví dụ: Táo Mỹ nhập khẩu" })
+                        @Html.ValidationMessageFor(m => m.ProductName, "", new { @class = "text-red-500 text-xs italic mt-1 block" })
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Danh mục <span class="text-red-500">*</span></label>
+                            @Html.DropDownListFor(m => m.CategoryID, (SelectList)ViewBag.CategoryList, "-- Chọn danh mục --", new { @class = "w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-primary outline-none bg-white" })
+                            @Html.ValidationMessageFor(m => m.CategoryID, "", new { @class = "text-red-500 text-xs italic mt-1 block" })
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Giá bán (VNĐ) <span class="text-red-500">*</span></label>
+                            @Html.TextBoxFor(m => m.Price, new { type = "number", min = "0", @class = "w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-primary outline-none", placeholder = "0" })
+                            @Html.ValidationMessageFor(m => m.Price, "", new { @class = "text-red-500 text-xs italic mt-1 block" })
+                        </div>
+                    </div>
+
+                    <div class="w-1/2 pr-3">
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Số lượng tồn kho</label>
+                        @Html.TextBoxFor(m => m.StockQuantity, new { type = "number", min = "0", @class = "w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-primary outline-none", placeholder = "0" })
+                        @Html.ValidationMessageFor(m => m.StockQuantity, "", new { @class = "text-red-500 text-xs italic mt-1 block" })
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Mô tả chi tiết</label>
+                        @Html.TextAreaFor(m => m.Description, new { @class = "w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-primary outline-none", rows = "5", placeholder = "Nhập mô tả sản phẩm..." })
+                    </div>
+                </div>
+                
+                <div class="space-y-6">
+                    @*
+        <div class="bg-gray-50 p-5 rounded-lg border border-gray-200">
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Hình ảnh sản phẩm (Tùy chọn)</label>
+
+            <input type="file" name="ImageUpload" id="ImageUpload" accept=".jpg, .jpeg, .png" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-primary-container file:text-primary hover:file:bg-primary/20 cursor-pointer" />
+
+            <p class="text-xs text-gray-500 mt-2 mt-2">Định dạng JPG, PNG. Tối đa 5MB.</p>
+            @Html.ValidationMessageFor(m => m.ImageUpload, "", new { @class = "text-red-500 text-xs italic mt-1 block" })
+        </div>
+                    *@
+
+
+                    <div class="bg-gray-50 p-5 rounded-lg border border-gray-200">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Hình ảnh sản phẩm</label>
+
+                        <input type="file" name="ImageUpload" id="ImageUpload" accept=".jpg, .jpeg, .png"
+                               class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-primary-container file:text-primary hover:file:bg-primary/20 cursor-pointer" />
+
+                        <div id="preview-container" class="mt-4 hidden">
+                            <p class="text-xs text-gray-500 mb-2">Xem trước hình ảnh:</p>
+                            <img id="img-preview" src="#" class="w-32 h-32 object-cover rounded-lg border-2 border-primary/20 shadow-sm" />
+                        </div>
+
+                        <p class="text-xs text-gray-500 mt-2">Định dạng JPG, PNG. Tối đa 5MB.</p>
+                        @Html.ValidationMessageFor(m => m.ImageUpload, "", new { @class = "text-red-500 text-xs italic mt-1 block" })
+                    </div>
+
+
+
+
+                    <div class="bg-gray-50 p-5 rounded-lg border border-gray-200">
+                        <label class="block text-sm font-semibold text-gray-700 mb-3">Trạng thái hiển thị</label>
+                        <div class="flex items-center">
+                            @Html.CheckBoxFor(m => m.IsActive, new { @class = "w-5 h-5 text-primary border-gray-300 rounded focus:ring-primary cursor-pointer" })
+                            <label for="IsActive" class="ml-2 font-medium text-gray-700 cursor-pointer">Đang kinh doanh</label>
+                        </div>
+                    </div>
+                </div>
+                </div>
+
+                <div class="flex items-center justify-end gap-4 pt-6 border-t border-gray-100 mt-8">
+                    <a href="@Url.Action("ProductManagement", "Admin")" class="px-6 py-2.5 rounded-lg border border-gray-300 text-gray-700 font-medium hover:bg-gray-50 transition-colors">
+                        Hủy
+                    </a>
+                    <button type="submit" class="px-6 py-2.5 rounded-lg bg-primary text-white font-medium hover:bg-primary-container shadow transition-all flex items-center gap-2">
+                        <span class="material-symbols-outlined text-sm">save</span> Lưu sản phẩm
+                    </button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+    <script>// Lắng nghe sự kiện thay đổi file của input
+        document.getElementById('ImageUpload').addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            const previewContainer = document.getElementById('preview-container');
+            const imgPreview = document.getElementById('img-preview');
+
+            if (file) {
+                // Kiểm tra nếu là file ảnh
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    // Gán dữ liệu ảnh vào thẻ img
+                    imgPreview.src = e.target.result;
+                    // Hiện khung preview
+                    previewContainer.classList.remove('hidden');
+                }
+
+                reader.readAsDataURL(file);
+            } else {
+                // Nếu không có file (người dùng nhấn cancel), ẩn preview
+                previewContainer.classList.add('hidden');
+            }
+        });</script>

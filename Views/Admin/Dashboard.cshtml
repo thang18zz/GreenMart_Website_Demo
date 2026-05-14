@@ -1,0 +1,18 @@
+﻿@using PTDA_Demo.Models @* Thay bằng namespace thực tế của bạn để nhận diện class Order, Product *@
+@{
+    ViewBag.Title = "DashBoard";
+    Layout = "~/Views/Shared/_GreenMart_Dashboard_layout.cshtml"; // Tắt Layout mặc định vì code của bạn đã có đủ cấu trúc HTML
+}
+
+
+<div>
+    <h2 class="font-headline-lg text-headline-lg text-on-surface">Overview</h2>
+    <p class="font-body-md text-body-md text-on-surface-variant mt-1">Welcome back. Have a nice day.</p>
+</div>
+@if (TempData["WarningMessage"] != null)
+{
+    <div class="bg-tertiary-container/20 border border-tertiary text-on-surface-variant p-3 rounded-md mb-4 text-sm flex items-center gap-2">
+        <span class="material-symbols-outlined text-tertiary">info</span>
+        @TempData["WarningMessage"]
+    </div>
+}

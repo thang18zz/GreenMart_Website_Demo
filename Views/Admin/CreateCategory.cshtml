@@ -1,0 +1,70 @@
+﻿@model PTDA_Demo.Models.CreateCategoryViewModel
+@{
+    ViewBag.Title = "CreateCategory";
+    Layout = "~/Views/Shared/_GreenMart_Dashboard_layout.cshtml";
+}
+
+
+
+<div class="max-w-3xl mx-auto px-4 py-8">
+    <div class="bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden">
+
+        <div class="bg-surface-container-high px-6 py-5 border-b border-gray-200 flex items-center gap-3">
+            <span class="material-symbols-outlined text-primary text-[28px]">category</span>
+            <h2 class="text-xl font-bold text-gray-800">Thêm mới danh mục sản phẩm</h2>
+        </div>
+
+        <div class="p-6 sm:p-8">
+            @using (Html.BeginForm("CreateCategory", "Admin", FormMethod.Post, new { @class = "space-y-6" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">
+                        Tên danh mục <span class="text-red-500">*</span>
+                    </label>
+                    @Html.TextBoxFor(m => m.CategoryName, new
+                    {
+                        @class = "w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors text-sm",
+                        placeholder = "Ví dụ: Đồ uống, Hải sản tươi sống..."
+                    })
+                    @Html.ValidationMessageFor(m => m.CategoryName, "", new { @class = "text-red-500 text-xs italic mt-1 block" })
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">
+                        Mô tả chi tiết <span class="text-gray-400 font-normal">(Tùy chọn)</span>
+                    </label>
+                    @Html.TextAreaFor(m => m.Description, new
+                    {
+                        @class = "w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors text-sm",
+                        rows = "4",
+                        placeholder = "Mô tả ngắn gọn về danh mục này (Tối đa 500 ký tự)..."
+                    })
+                    @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-red-500 text-xs italic mt-1 block" })
+                </div>
+
+                <div class="flex items-center gap-3 bg-gray-50 p-4 rounded-lg border border-gray-100">
+                    <div class="flex items-center h-5">
+                        @Html.CheckBoxFor(m => m.IsActive, new { @class = "w-5 h-5 text-primary border-gray-300 rounded focus:ring-primary" })
+                    </div>
+                    <div class="ml-2 text-sm">
+                        <label for="IsActive" class="font-semibold text-gray-700 cursor-pointer">Đang hoạt động</label>
+                        <p class="text-gray-500 font-normal">Kích hoạt để danh mục này hiển thị trên trang mua sắm ngay lập tức.</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-end gap-4 pt-6 border-t border-gray-100 mt-8">
+                    <a href="@Url.Action("CategoryManagement", "Admin")" class="px-6 py-2.5 rounded-lg border border-gray-300 text-gray-700 font-medium hover:bg-gray-50 transition-colors">
+                        Hủy
+                    </a>
+
+                    <button type="submit" class="px-6 py-2.5 rounded-lg bg-primary text-white font-medium hover:bg-primary-container shadow hover:shadow-md transition-all flex items-center gap-2">
+                        <span class="material-symbols-outlined text-sm">save</span>
+                        Lưu danh mục
+                    </button>
+                </div>
+            }
+        </div>
+    </div>
+</div>

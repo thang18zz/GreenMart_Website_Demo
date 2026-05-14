@@ -1,0 +1,202 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>GreenMart Admin - Logout Confirmation</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+    <script id="tailwind-config">tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary": "#286b33",
+                    "primary-container": "#2e7d32",
+                    "on-surface-variant": "#40493d",
+                    "error": "#ba1a1a",
+                    "tertiary-fixed-dim": "#b1ceb2",
+                    "tertiary": "#415b45",
+                    "on-secondary-fixed": "#002107",
+                    "surface": "#fbf9f9",
+                    "primary-fixed-dim": "#88d982",
+                    "on-error": "#ffffff",
+                    "primary": "#0d631b",
+                    "surface-container-highest": "#e3e2e2",
+                    "on-tertiary": "#ffffff",
+                    "on-primary-fixed-variant": "#005312",
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary-container": "#2e7238",
+                    "on-primary": "#ffffff",
+                    "on-secondary-fixed-variant": "#07521d",
+                    "surface-dim": "#dbdad9",
+                    "secondary-fixed": "#abf4ac",
+                    "surface-container-low": "#f5f3f3",
+                    "tertiary-container": "#59745c",
+                    "on-tertiary-fixed-variant": "#334d37",
+                    "surface-bright": "#fbf9f9",
+                    "on-background": "#1b1c1c",
+                    "tertiary-fixed": "#cceacd",
+                    "secondary-container": "#abf4ac",
+                    "surface-tint": "#1b6d24",
+                    "inverse-primary": "#88d982",
+                    "on-secondary": "#ffffff",
+                    "on-primary-fixed": "#002204",
+                    "background": "#fbf9f9",
+                    "inverse-surface": "#303031",
+                    "surface-variant": "#e3e2e2",
+                    "on-error-container": "#93000a",
+                    "inverse-on-surface": "#f2f0f0",
+                    "surface-container": "#efeded",
+                    "on-tertiary-fixed": "#07200e",
+                    "primary-fixed": "#a3f69c",
+                    "surface-container-high": "#e9e8e7",
+                    "outline-variant": "#bfcaba",
+                    "secondary-fixed-dim": "#90d792",
+                    "outline": "#707a6c",
+                    "error-container": "#ffdad6",
+                    "on-surface": "#1b1c1c",
+                    "on-tertiary-container": "#daf9db",
+                    "on-primary-container": "#cbffc2"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "base": "8px",
+                    "lg": "40px",
+                    "xs": "4px",
+                    "gutter": "24px",
+                    "xl": "64px",
+                    "sm": "12px",
+                    "margin-mobile": "16px",
+                    "md": "24px",
+                    "max-width": "1280px",
+                    "margin-desktop": "48px"
+            },
+            "fontFamily": {
+                    "display-lg": ["Inter"],
+                    "label-lg": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "body-md": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "headline-lg-mobile": ["Inter"]
+            },
+            "fontSize": {
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "500"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }</script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface overflow-hidden">
+    <!-- Dashboard Background (Mockup for context) -->
+    <div class="flex h-screen w-full blur-sm brightness-95">
+        <!-- Sidebar Navigation (SideNavBar JSON Mapping) -->
+        <aside class="fixed left-0 top-0 h-full w-64 border-r border-outline-variant bg-surface-container-low flex flex-col py-md z-10">
+            <div class="px-gutter mb-lg">
+                <h1 class="font-headline-md text-headline-md font-black text-primary">GreenMart</h1>
+                <p class="font-label-lg text-label-lg text-on-surface-variant">Admin Console</p>
+            </div>
+            <nav class="flex-1 px-sm space-y-1">
+                <div class="flex items-center gap-sm px-md py-sm rounded-lg text-primary font-bold bg-secondary-container/20 border-r-4 border-primary">
+                    <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                    <span class="font-label-lg text-label-lg">Dashboard</span>
+                </div>
+                <div class="flex items-center gap-sm px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-all">
+                    <span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+                    <span class="font-label-lg text-label-lg">Inventory</span>
+                </div>
+                <div class="flex items-center gap-sm px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-all">
+                    <span class="material-symbols-outlined" data-icon="receipt">receipt</span>
+                    <span class="font-label-lg text-label-lg">Orders</span>
+                </div>
+            </nav>
+        </aside>
+        <!-- Main Content Area Mockup -->
+        <main class="ml-64 w-full flex flex-col">
+            <!-- Top Navigation (TopNavBar JSON Mapping) -->
+            <header class="flex justify-between items-center h-16 px-gutter w-full sticky top-0 z-40 bg-surface shadow-sm">
+                <div class="flex items-center gap-md">
+                    <span class="font-headline-md text-headline-md font-bold text-primary">Overview</span>
+                </div>
+                <div class="flex items-center gap-md">
+                    <span class="material-symbols-outlined text-on-surface-variant cursor-pointer" data-icon="notifications">notifications</span>
+                    <div class="h-10 w-10 rounded-full bg-surface-container-highest flex items-center justify-center overflow-hidden border border-outline-variant">
+                        <img alt="Admin User Avatar" class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAvMqtYztwfKhGthxhHLbmcgWRYyuxdfbaFZPQ7Ze3dPpNcV11_iFLa_w647rgPelP3hBULVDHx4zxF1jcIWqAhrFW8lWSM7u1ezd4Eci94QFR02x7nPUJCPRa_HjP9iJ8OpbtUkoamNFcyip6arRRKhAs0qmGTmTiMi6vEoN0s6FO77hY6hxGZMb6v_bgO2xOyBusRdDjOVzzdcyckfR3nzlk55lGOMRdBCW25_k1g1C-bBIovvrzf_yYkI2oz0jEtXw0QCUb8M7c" />
+                    </div>
+                </div>
+            </header>
+            <section class="p-gutter grid grid-cols-12 gap-gutter">
+                <div class="col-span-8 bg-surface-container-lowest rounded-xl p-md border border-outline-variant h-64"></div>
+                <div class="col-span-4 bg-surface-container-lowest rounded-xl p-md border border-outline-variant h-64"></div>
+                <div class="col-span-12 bg-surface-container-lowest rounded-xl p-md border border-outline-variant h-96"></div>
+            </section>
+        </main>
+    </div>
+    <!-- Modal Overlay -->
+    <div class="fixed inset-0 z-50 flex items-center justify-center bg-on-background/40 backdrop-blur-[2px]">
+        <!-- Logout Confirmation Modal -->
+        <div class="bg-surface-container-lowest w-full max-w-[400px] rounded-xl shadow-xl border border-outline-variant overflow-hidden p-gutter flex flex-col items-center text-center">
+            <!-- Icon/Visual Header -->
+            <div class="w-16 h-16 rounded-full bg-error-container flex items-center justify-center mb-md">
+                <span class="material-symbols-outlined text-error text-[32px]" data-icon="logout">logout</span>
+            </div>
+            <!-- Content -->
+            <div class="space-y-sm mb-lg">
+                <h2 class="font-headline-md text-headline-md text-on-surface">Đăng xuất</h2>
+                <p class="font-body-md text-body-md text-on-surface-variant px-sm">
+                    Bạn có chắc chắn muốn đăng xuất không? Phiên làm việc hiện tại của bạn sẽ được kết thúc.
+                </p>
+            </div>
+            <!-- Actions -->
+            <div class="flex flex-col w-full gap-sm">
+                <button onclick="location.href='@Url.Action("ClearSessions","Admin")'" class="w-full h-12 bg-primary-container text-on-primary font-label-lg text-label-lg rounded-lg hover:bg-primary transition-all active:scale-95 shadow-sm">
+                    Đồng ý
+                </button>
+                <button onclick="location.href='@Url.Action("Dashboard","Admin")'" class="w-full h-12 bg-transparent text-primary font-label-lg text-label-lg rounded-lg border border-primary hover:bg-primary-fixed/20 transition-all active:scale-95">
+                    Hủy bỏ
+                </button>
+            </div>
+            <!-- Optional context image for the brand experience -->
+            <div class="mt-lg w-full h-24 rounded-lg overflow-hidden relative">
+                <img class="w-full h-full object-cover brightness-75" data-alt="A lush, high-resolution close-up of vibrant fresh green vegetables in a clean, modern market environment. The scene is illuminated by soft, natural morning sunlight that highlights the dewdrops on the leaves. The aesthetic is clean, organic, and professional, reflecting a premium grocery dashboard environment with a focus on freshness and vitality." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCnSkR-djZ_Bdz2SSj_vyIcDOR4XB3GyRUzKEZ0F05vHunpdXCGTr-tF5AmWv7mffy_6EsJB9V5cniFacHiywJVv8IMG3uUYDigAlOwgPQWZT2LuSQz5d8E7RPlk52NyMBf9bKqdmfYmb2iwyfbO1NF5nPcxtN_JA_tLAUgnPeT0gDwkMqThcUDUbV_10L4J_6Uj4L5GRtL32MZ_WQt-KsN2gFFUwz5dkyWcGaNIuaD-YwHYyHVNg_pk4iVkDLOvlQ38LuBjdeZ2X0" />
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <span class="font-label-sm text-label-sm text-white uppercase tracking-widest opacity-80">GreenMart Quality</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

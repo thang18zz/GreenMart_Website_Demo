@@ -1,0 +1,165 @@
+﻿@model IEnumerable<PTDA_Demo.Models.Category>
+@{
+    ViewBag.Title = "CategoryManagement";
+    Layout = "~/Views/Shared/_GreenMart_Dashboard_layout.cshtml";
+}
+
+@if (TempData["WarningMessage"] != null)
+{
+    <div class="bg-tertiary-container/20 border border-tertiary text-on-surface-variant p-3 rounded-md mb-4 text-sm flex items-center gap-2">
+        <span class="material-symbols-outlined text-tertiary">info</span>
+        @TempData["WarningMessage"]
+    </div>
+}
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+
+    <div class="flex justify-between items-center">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-900">Danh mục sản phẩm</h1>
+            <p class="text-sm text-gray-500 mt-1">Quản lý phân loại các mặt hàng trong hệ thống</p>
+        </div>
+        <button onclick="location.href='@Url.Action("CreateCategory","Admin")'" class="bg-primary hover:bg-primary-container text-white px-4 py-2 rounded-lg font-medium shadow transition-colors flex items-center gap-2">
+            <span class="material-symbols-outlined text-sm">add</span> Thêm danh mục mới
+        </button>
+    </div>
+
+    @if (ViewBag.Error != null)
+    {
+        <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-md shadow-sm">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <span class="material-symbols-outlined text-red-500 mr-3">error</span>
+                    <p class="text-red-700 font-medium">@ViewBag.Error</p>
+                </div>
+                <a href="@Url.Action("CategoryManagement", "Admin")" class="text-red-700 font-bold hover:underline flex items-center gap-1">
+                    <span class="material-symbols-outlined text-sm">refresh</span> Tải lại
+                </a>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="bg-white shadow-md rounded-lg border border-gray-200 overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200 text-sm text-left">
+                    <thead class="bg-gray-50 text-gray-600 font-semibold uppercase text-xs">
+                        <tr>
+                            <th class="px-6 py-4 w-16">ID</th>
+                            <th class="px-6 py-4 w-1/4">Tên danh mục</th>
+                            <th class="px-6 py-4">Mô tả</th>
+                            <th class="px-6 py-4 text-center w-32">Trạng thái</th>
+                            <th class="px-6 py-4 text-right w-32">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200 bg-white">
+
+                        @if (!Model.Any())
+                        {
+                            <tr>
+                                <td colspan="5" class="px-6 py-12 text-center">
+                                    <span class="material-symbols-outlined text-gray-400 text-5xl mb-3 block">category</span>
+                                    <h3 class="text-lg font-medium text-gray-900">Chưa có danh mục nào</h3>
+                                    <p class="mt-1 text-gray-500">Hiện tại chưa có danh mục sản phẩm nào trong hệ thống.</p>
+                                    <div class="mt-4">
+                                        <button class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary hover:bg-primary-container focus:outline-none">
+                                            <span class="material-symbols-outlined text-sm mr-2">add</span> Thêm danh mục ngay
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+
+                        @foreach (var item in Model)
+                        {
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-6 py-4 text-gray-900 font-medium">#@item.CategoryID</td>
+                                <td class="px-6 py-4 font-semibold text-gray-800">@item.CategoryName</td>
+
+                                <td class="px-6 py-4 text-gray-600 max-w-xs truncate cursor-help" title="@item.Description">
+                                    @(string.IsNullOrEmpty(item.Description) ? "—" : item.Description)
+                                </td>
+
+                                <td class="px-6 py-4 text-center">
+                                    @if (item.IsActive == true)
+                                    {
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 border border-green-200">
+                                            Đang hoạt động
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600 border border-gray-200">
+                                            Đã ẩn
+                                        </span>
+                                    }
+                                </td>
+
+                                <td class="px-6 py-4 text-right flex justify-end space-x-4 items-center">
+
+                                    <a href="@Url.Action("EditCategory", "Admin", new { id = item.CategoryID })"
+                                       class="text-blue-600 hover:text-blue-800 font-medium transition-colors">
+                                        Sửa
+                                    </a>
+
+                                    @using (Html.BeginForm("DeleteCategory", "Admin", FormMethod.Post, new { @class = "inline m-0 p-0", onsubmit = "return confirm('Bạn có chắc chắn muốn xóa danh mục này không? Thao tác này không thể hoàn tác.');" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+
+                                        <input type="hidden" name="targetCategoryId" value="@item.CategoryID" />
+
+                                        <button type="submit" class="text-red-600 hover:text-red-800 font-medium bg-transparent border-none p-0 cursor-pointer transition-colors">
+                                            Xóa
+                                        </button>
+                                    }
+                                </td>
+
+
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            @if (ViewBag.TotalPages > 1)
+            {
+                <div class="px-6 py-4 bg-white border-t border-gray-200 flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-gray-700">
+                            Đang hiển thị trang <span class="font-medium text-primary">@ViewBag.CurrentPage</span>
+                            / <span class="font-medium">@ViewBag.TotalPages</span>
+                        </p>
+                    </div>
+                    <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px">
+                        @if (ViewBag.CurrentPage > 1)
+                        {
+                            <a href="@Url.Action("CategoryManagement", new { page = ViewBag.CurrentPage - 1 })" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                <span class="material-symbols-outlined text-sm">chevron_left</span>
+                            </a>
+                        }
+
+                        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                        {
+                            if (i == ViewBag.CurrentPage)
+                            {
+                                <span class="relative inline-flex items-center px-4 py-2 border border-primary bg-primary-container/20 text-sm font-bold text-primary z-10">@i</span>
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("CategoryManagement", new { page = i })" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">@i</a>
+                            }
+                        }
+
+                        @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+                        {
+                            <a href="@Url.Action("CategoryManagement", new { page = ViewBag.CurrentPage + 1 })" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                <span class="material-symbols-outlined text-sm">chevron_right</span>
+                            </a>
+                        }
+                    </nav>
+                </div>
+            }
+        </div>
+    }
+</div>
