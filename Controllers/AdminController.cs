@@ -39,9 +39,12 @@ namespace PTDA_Demo.Controllers
         [HttpGet]
         public ActionResult Login()
         {
-            if (Session["TaiKhoan"] != null)
+            if (Session["TaiKhoan"] != null )
             {
-                return RedirectToAction("Dashboard", "Admin");
+                if ((int)Session["RoleID"] == 1 || (int)Session["RoleID"] == 2 || (int)Session["RoleID"] == 3)
+                    return RedirectToAction("Dashboard", "Admin");
+                else
+                    return RedirectToAction("Homepage", "User");
             }
             return View();
         }
@@ -79,8 +82,7 @@ namespace PTDA_Demo.Controllers
             // Scenario 4: Tài khoản Khách hàng (RoleID = 4) [cite: 28]
             if (user.RoleID == 4)
             {
-                ViewBag.Error = "Bạn không có quyền truy cập vào hệ thống này."; // [cite: 32]
-                return View();
+                return RedirectToAction("Homepage", "User");
             }
 
             // Scenario 1: Đăng nhập thành công với vai trò Admin (1), Manager (2), Staff (3) [cite: 4]
@@ -135,6 +137,7 @@ namespace PTDA_Demo.Controllers
             }
 
             Session.Clear();
+            TempData["WarningMessage"] = "Đăng xuất thành công!";
             return RedirectToAction("Login","Admin");
 
         }
@@ -176,9 +179,8 @@ namespace PTDA_Demo.Controllers
             int roleId = Convert.ToInt32(Session["RoleID"]);
             if (roleId == 4)
             {
-                TempData["WarningMessage"] = "Bạn không có quyền truy cập vào trang này";
-                // Là khách hàng nhưng cố tình vào Admin -> Đuổi về Login hoặc trang chủ
-                return RedirectToAction("Homepage", "User");
+                // Là khách hàng 
+                return RedirectToAction("Profile", "User", new {id = UserProfile.UserID});
             }
 
             return View(UserProfile);
@@ -276,7 +278,7 @@ namespace PTDA_Demo.Controllers
             {
                 TempData["WarningMessage"] = "Bạn không có quyền truy cập vào trang này.";
                 // Đuổi về trang chủ của khách
-                return RedirectToAction("Login", "Admin");
+                return RedirectToAction("Homepage", "User");
             }
 
             try
@@ -534,11 +536,14 @@ namespace PTDA_Demo.Controllers
             int currentUserId = Convert.ToInt32(Session["UserID"]);
             int roleIdSession = Convert.ToInt32(Session["RoleID"]);
 
-            // Chỉ cho phép Admin (RoleID = 1) thực hiện chức năng xóa cứng
-            if (roleIdSession != 1)
+            // Chỉ cho phép Admin và quản lý (RoleID = 1 hoặc 2) thực hiện chức năng xóa cứng
+            if (roleIdSession != 1 && roleIdSession != 2)
             {
                 TempData["WarningMessage"] = "Bạn không có quyền thực hiện chức năng xóa tài khoản.";
+                if(roleIdSession==3)
                 return RedirectToAction("AccountManagement", "Admin");
+                if(roleIdSession==4)
+                return RedirectToAction("Homepage", "User");
             }
 
             // ==========================================

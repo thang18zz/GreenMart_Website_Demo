@@ -1,0 +1,91 @@
+﻿@model  PTDA_Demo.Models.User
+@{
+    ViewBag.Title = "Profile";
+}
+
+@if (ViewBag.Error != null)
+{
+    <div class="bg-tertiary-container/20 border border-tertiary text-on-surface-variant p-3 rounded-md mb-4 text-sm flex items-center gap-2">
+        <span class="material-symbols-outlined text-tertiary">info</span>
+        @ViewBag.Error
+    </div>
+}
+
+<!-- Profile Canvas -->
+<main class="flex-1 overflow-y-auto p-margin-mobile md:p-margin-desktop bg-surface-container-low">
+    <div class="max-w-4xl mx-auto">
+        <!-- Page Header -->
+        <div class="mb-lg flex justify-between items-end">
+            <div>
+                <h1 class="font-headline-lg text-headline-lg text-on-surface mb-2">User Profile</h1>
+                <p class="font-body-md text-body-md text-on-surface-variant">Manage your personal information and account settings.</p>
+            </div>
+            @*<button class="bg-primary text-on-primary font-label-lg text-label-lg px-6 py-2.5 rounded-lg hover:bg-surface-tint transition-colors shadow-sm flex items-center gap-2">
+                    <span class="material-symbols-outlined text-[20px]">edit</span>
+                    Edit Profile
+                </button>*@
+        </div>
+        <!-- Profile Card (Bento Style Layout) -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Avatar & Summary Card -->
+            <div class="bg-surface-container-lowest rounded-xl p-md border border-outline-variant shadow-[0_4px_20px_rgba(0,0,0,0.04)] flex flex-col items-center text-center">
+                <div class="relative mb-6">
+                    <img alt="User Profile Picture" class="w-32 h-32 rounded-full object-cover border-4 border-surface-container-low shadow-sm" data-alt="A highly detailed, professional portrait of a business manager, smiling gently. The subject is framed against a bright, minimalist white background with soft, diffused lighting that creates a fresh, clean look. Hints of vibrant organic green can be seen in a subtle plant blur in the background, matching a modern, healthy corporate identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD97D6HbJpwtMvYBiGjSxowrJP_Ii9e3HBkxAxOqMDQ_IN3198UYKHA662m53M9Wv61j7W6eN_wYg9KlvWFZ7QY3SG4cnaIs5PvzSSDmmH3oRomvbFGwQWkOrqQPSVe8BbGlb0W1E1G2JHRDqCWBTlZDso5Rjj2UgEUlg5nwB7eTFO5R8mtev3YPmlOmUC1oc43VL6w-f0GhuUrp1QhyGG3rzu9RiSPpEASO2CSUOOs7B4HGsxtWF1o82C9u5wWJDMTsUPs8vT1D4I" />
+                    <button class="absolute bottom-0 right-0 w-8 h-8 bg-surface-container-lowest border border-outline-variant rounded-full flex items-center justify-center text-on-surface-variant hover:text-primary hover:border-primary transition-colors shadow-sm">
+                        <span class="material-symbols-outlined text-[16px]">photo_camera</span>
+                    </button>
+                </div>
+                <h2 class="font-headline-md text-headline-md text-on-surface mb-1">@Model.FullName</h2>
+                <p class="font-body-md text-body-md text-on-surface-variant mb-4">@Model.Role.RoleName</p>
+                <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm border border-secondary-fixed-dim">
+                    <span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                    Đang hoạt động
+                </div>
+            </div>
+            <!-- Details Card -->
+            <div class="md:col-span-2 bg-surface-container-lowest rounded-xl p-md border border-outline-variant shadow-[0_4px_20px_rgba(0,0,0,0.04)]">
+                <h3 class="font-headline-md-mobile text-headline-lg-mobile text-on-surface mb-6 pb-4 border-b border-surface-container-highest">Personal Information</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-y-6 gap-x-8">
+                    <!-- Field: Full Name -->
+                    <div>
+                        <p class="font-label-sm text-label-sm text-on-surface-variant mb-1 uppercase tracking-wider">Họ và tên</p>
+                        <p class="font-body-lg text-body-lg text-on-surface font-medium">@Model.FullName</p>
+                    </div>
+                    <!-- Field: Email -->
+                    <div>
+                        <p class="font-label-sm text-label-sm text-on-surface-variant mb-1 uppercase tracking-wider">Email</p>
+                        <p class="font-body-lg text-body-lg text-on-surface font-medium">@Model.Email</p>
+                    </div>
+                    <!-- Field: Phone Number -->
+                    <div>
+                        <p class="font-label-sm text-label-sm text-on-surface-variant mb-1 uppercase tracking-wider">Số điện thoại</p>
+                        <p class="font-body-lg text-body-lg text-on-surface font-medium">@Model.PhoneNumber</p>
+                    </div>
+                    <!-- Field: Role -->
+                    <div>
+                        <p class="font-label-sm text-label-sm text-on-surface-variant mb-1 uppercase tracking-wider">Chức vụ / Vai trò</p>
+                        <p class="font-body-lg text-body-lg text-on-surface font-medium">@Model.Role.RoleName</p>
+                    </div>
+                    <!-- Field: Joined Date -->
+                    <div>
+                        <p class="font-label-sm text-label-sm text-on-surface-variant mb-1 uppercase tracking-wider">Ngày tham gia</p>
+                        <p class="font-body-lg text-body-lg text-on-surface font-medium">@Model.CreatedAt</p>
+                    </div>
+                    @*<!-- Field: Department (Optional addition for realism) -->
+                        <div>
+                            <p class="font-label-sm text-label-sm text-on-surface-variant mb-1 uppercase tracking-wider">Phòng ban</p>
+                            <p class="font-body-lg text-body-lg text-on-surface font-medium">IT &amp; Operations</p>
+                        </div>*@
+                </div>
+                <div class="mt-8 pt-6 border-t border-surface-container-highest">
+                    <h4 class="font-label-lg text-label-lg text-on-surface mb-4">Security</h4>
+                    <button onclick="location.href='@Url.Action("ChangePassword","Admin")'" class="font-label-lg text-label-lg text-primary hover:text-surface-tint flex items-center gap-2 transition-colors">
+                        <span class="material-symbols-outlined text-[20px]">lock_reset</span>
+                        Change Password
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
