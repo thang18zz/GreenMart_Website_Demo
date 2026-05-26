@@ -122,42 +122,8 @@
             </div>
             <div>
                 <h1 class="font-headline-md text-headline-md font-black text-primary leading-none">GreenMart</h1>
-                <p class="font-label-sm text-label-sm text-on-surface-variant">Admin Console</p>
+                <p class="font-label-sm text-label-sm text-on-surface-variant">Welcome!</p>
             </div>
-        </div>
-        <div class="flex-1 overflow-y-auto px-sm flex flex-col gap-1">
-            <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-primary dark:text-primary-fixed border-r-4 border-primary dark:border-primary-fixed font-bold bg-secondary-container/20 font-label-lg text-label-lg hover:bg-surface-container-high dark:hover:bg-surface-variant hover:text-on-surface transition-colors" href="#">
-                <span class="material-symbols-outlined">dashboard</span>
-                Dashboard
-            </a>
-            <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant dark:text-outline-variant font-label-lg text-label-lg hover:bg-surface-container-high dark:hover:bg-surface-variant hover:text-on-surface transition-colors" href="@Url.Action("AccountManagement","Admin")">
-                <span class="material-symbols-outlined">group</span>
-                Accounts
-            </a>
-            <a onclick="location.href='@Url.Action("CategoryManagement","Admin")'" class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant dark:text-outline-variant font-label-lg text-label-lg hover:bg-surface-container-high dark:hover:bg-surface-variant hover:text-on-surface transition-colors" href="#">
-                <span class="material-symbols-outlined">category</span>
-                Catalog
-            </a>
-            <a onclick="location.href='@Url.Action("ProductManagement","Admin")'" class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant dark:text-outline-variant font-label-lg text-label-lg hover:bg-surface-container-high dark:hover:bg-surface-variant hover:text-on-surface transition-colors" href="#">
-                <span class="material-symbols-outlined">inventory_2</span>
-                Inventory
-            </a>
-            <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant dark:text-outline-variant font-label-lg text-label-lg hover:bg-surface-container-high dark:hover:bg-surface-variant hover:text-on-surface transition-colors" href="#">
-                <span class="material-symbols-outlined">local_shipping</span>
-                Suppliers
-            </a>
-            <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant dark:text-outline-variant font-label-lg text-label-lg hover:bg-surface-container-high dark:hover:bg-surface-variant hover:text-on-surface transition-colors" href="#">
-                <span class="material-symbols-outlined">receipt_long</span>
-                Procurement
-            </a>
-            <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant dark:text-outline-variant font-label-lg text-label-lg hover:bg-surface-container-high dark:hover:bg-surface-variant hover:text-on-surface transition-colors" href="#">
-                <span class="material-symbols-outlined">receipt</span>
-                Orders
-            </a>
-            <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant dark:text-outline-variant font-label-lg text-label-lg hover:bg-surface-container-high dark:hover:bg-surface-variant hover:text-on-surface transition-colors" href="#">
-                <span class="material-symbols-outlined">analytics</span>
-                Reports
-            </a>
         </div>
         
     </nav>
@@ -178,22 +144,7 @@
                 <div class="flex items-center gap-2">
 
 
-                    <!-- Profile Dropdown Trigger (Visual Only) -->
-                    <div class="flex items-center gap-4 ml-auto">
-                        <div class="relative ml-2 flex items-center gap-3">
-                            @* Hiển thị Tên người dùng đang đăng nhập từ Session *@
-                            <span class="font-medium text-sm">Chào, @Session["FullName"]</span>
-
-                            <button onclick="location.href='@Url.Action("Profile","Admin")'" class="flex items-center gap-2 focus:outline-none cursor-pointer">
-                                <img alt="Admin Avatar" class="w-8 h-8 rounded-full border border-outline-variant" src="https://ui-avatars.com/api/?name=@Session["FullName"]&background=0d631b&color=fff" />
-                            </button>
-
-                            @* Nút Đăng xuất *@
-                            <a href="@Url.Action("Logout", "Admin")" class="text-error hover:underline text-sm ml-2" title="Đăng xuất">
-                                <span class="material-symbols-outlined">logout</span>
-                            </a>
-                        </div>
-                    </div>
+                    
         </header>
         <!-- Canvas -->
         <main class="flex-1 overflow-y-auto p-gutter lg:p-lg bg-background">

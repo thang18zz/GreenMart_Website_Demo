@@ -107,28 +107,58 @@
                                 </td>
 
                                 <td class="px-6 py-4 flex items-center space-x-4">
+                                    @{bool isCurrentUser = (Session["UserID"] != null && (int)Session["UserID"] == item.UserID);
+                                    }
+                                    @if (isCurrentUser == false)
+                                    {
+                                        <a href="@Url.Action("EditAccount", "Admin", new { id = item.UserID })"
+                                           class="text-blue-600 hover:text-blue-800 font-medium flex items-center gap-1 transition-colors">
+                                            Sửa
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a href="#"
+                                           class="text-gray-400 font-medium bg-transparent border-none p-0 cursor-not-allowed">
+                                            Sửa
+                                        </a>
+                                    }
 
-                                    <a href="@Url.Action("EditAccount", "Admin", new { id = item.UserID })"
-                                       class="text-blue-600 hover:text-blue-800 font-medium flex items-center gap-1 transition-colors">
-                                        Sửa
-                                    </a>
 
                                     @using (Html.BeginForm("ToggleAccountStatus", "Admin", FormMethod.Post, new { @class = "inline m-0 p-0", onsubmit = "return confirm('Bạn có chắc chắn muốn thay đổi trạng thái tài khoản này?');" }))
                                     {
                                         @Html.AntiForgeryToken()
                                         <input type="hidden" name="targetUserId" value="@item.UserID" />
-
+                                        //bool isCurrentUser = (Session["UserID"] != null && (int)Session["UserID"] == item.UserID);
                                         if (item.IsActive == true)
                                         {
-                                            <button type="submit" class="text-orange-500 hover:text-orange-700 font-medium bg-transparent border-none p-0 cursor-pointer transition-colors">
-                                                Khóa
-                                            </button>
+                                            if (isCurrentUser == false)
+                                            {
+                                                <button type="submit" class="text-orange-500 hover:text-orange-700 font-medium bg-transparent border-none p-0 cursor-pointer transition-colors">
+                                                    Khóa
+                                                </button>
+                                            }
+                                            else
+                                            {
+                                                <button type="button" class="text-gray-400 font-medium bg-transparent border-none p-0 cursor-not-allowed">
+                                                    Khóa
+                                                </button>
+                                            }
                                         }
                                         else
                                         {
-                                            <button type="submit" class="text-green-600 hover:text-green-800 font-medium bg-transparent border-none p-0 cursor-pointer transition-colors">
-                                                Mở khóa
-                                            </button>
+                                            if (isCurrentUser == false)
+                                            {
+                                                <button type="submit" class="text-green-600 hover:text-green-800 font-medium bg-transparent border-none p-0 cursor-pointer transition-colors">
+                                                    Mở khóa
+                                                </button>
+                                            }
+                                            else
+                                            {
+                                                <button type="button" class="text-gray-400 font-medium bg-transparent border-none p-0 cursor-not-allowed">
+                                                    Mở khóa
+                                                </button>
+                                            }
                                         }
                                     }
 
@@ -138,7 +168,7 @@
                                         <input type="hidden" name="targetUserId" value="@item.UserID" />
 
                                         // Kiểm tra xem ID của dòng này có trùng với ID của người đang đăng nhập không
-                                        bool isCurrentUser = (Session["UserID"] != null && (int)Session["UserID"] == item.UserID);
+                                        //bool isCurrentUser = (Session["UserID"] != null && (int)Session["UserID"] == item.UserID);
 
                                         if (isCurrentUser)
                                         {

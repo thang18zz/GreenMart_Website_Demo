@@ -157,7 +157,7 @@ namespace PTDA_Demo.Controllers
         public ActionResult Profile()
         {
             //scenario 2
-            if (Session["TaiKhoan"] == null)
+            if (Session["TaiKhoan"] == null && TempData["WarningMessage"]==null)
             {
                 // Dùng TempData để giữ thông báo khi chuyển trang
                 TempData["WarningMessage"] = "Vui lòng đăng nhập để tiếp tục!";
@@ -298,7 +298,7 @@ namespace PTDA_Demo.Controllers
 
                 return View(usersOnPage);
             }
-            catch (Exception ex)
+            catch (Exception )
             {
                 // Scenario 6: Lỗi tải dữ liệu (Mất kết nối server/CSDL)
                 ViewBag.Error = "Không thể tải danh sách tài khoản lúc này. Vui lòng tải lại trang hoặc thử lại sau.";
@@ -312,7 +312,7 @@ namespace PTDA_Demo.Controllers
         private void PrepareAddRoleDropdown()
         {
             // Lấy RoleID = 2 (Manager) và RoleID = 3 (Staff) từ CSDL
-            var roles = db.Roles.Where(r => r.RoleID == 2 || r.RoleID == 3).ToList();
+            var roles = db.Roles.Where(r => r.RoleID == 4).ToList();
             ViewBag.RoleList = new SelectList(roles, "RoleID", "RoleName");
         }
 
@@ -320,21 +320,7 @@ namespace PTDA_Demo.Controllers
         [HttpGet]
         public ActionResult CreateAccount()
         {
-            // KỊCH BẢN 7: Kiểm tra phân quyền (Chỉ Admin mới được vào)
-            if (Session["TaiKhoan"] == null)
-            {
-                TempData["WarningMessage"] = "Vui lòng đăng nhập để tiếp tục.";
-                return RedirectToAction("Login", "Admin");
-            }
-
-            int roleId = Convert.ToInt32(Session["RoleID"]);
-            // Nếu là Staff (3) hoặc Customer (4) -> Đuổi về Dashboard/Trang chủ
-            if (roleId == 3 || roleId == 4)
-            {
-                TempData["WarningMessage"] = "Bạn không có quyền thực hiện chức năng này.";
-                return RedirectToAction("Dashboard", "Admin");
-            }
-
+            
             PrepareAddRoleDropdown();
             return View();
         }
@@ -344,13 +330,7 @@ namespace PTDA_Demo.Controllers
         [ValidateAntiForgeryToken] // Bảo mật: Chống giả mạo request
         public ActionResult CreateAccount(CreateAccountViewModel model)
         {
-            // KỊCH BẢN 7 (Check lại lần 2 đề phòng dùng tool gửi POST lậu)
-            int roleId = Convert.ToInt32(Session["RoleID"]);
-            if (Session["TaiKhoan"] == null || roleId == 3 || roleId == 4)
-            {
-                TempData["WarningMessage"] = "Bạn không có quyền thực hiện chức năng này.";
-                return RedirectToAction("Dashboard", "Admin");
-            }
+            
 
             // Nếu dữ liệu qua được vòng kiểm tra của ViewModel (Kịch bản 4, 5, 6)
             if (ModelState.IsValid)
@@ -388,7 +368,20 @@ namespace PTDA_Demo.Controllers
 
                     TempData["WarningMessage"] = "Tạo tài khoản thành công!";
                     // Redirect về trang danh sách tài khoản (Giả sử bạn có hàm Index cho quản lý User)
-                    return RedirectToAction("AccountManagement", "Admin");
+
+
+                    if (Session["RoleID"]!=null)
+                    {
+                        if ((int)Session["RoleID"] == 1 || (int)Session["RoleID"] == 2)
+                        {
+                            return RedirectToAction("AccountManagement", "Admin");
+                        }
+                    }
+                    ClearSessions();
+                     TempData["WarningMessage"] = "Tạo tài khoản thành công! Vui lòng đăng nhập để sử dụng các chức năng của hệ thống.";
+                    return RedirectToAction("Login", "Admin");
+                    
+
                 }
             }
 
@@ -400,8 +393,9 @@ namespace PTDA_Demo.Controllers
 
         private void PrepareEditRoleDropdown()
         {
-            // Lấy danh sách Role từ CSDL (Admin, Manager, Staff, Customer)
+            // Lấy danh sách Role từ CSDL ( Manager, Staff, Customer)
             var roles = db.Roles.ToList();
+            roles.RemoveAll(c=>c.RoleName=="Admin");
             ViewBag.RoleList = new SelectList(roles, "RoleID", "RoleName");
         }
         // ==========================================
@@ -410,7 +404,7 @@ namespace PTDA_Demo.Controllers
         [HttpGet]
         public ActionResult EditAccount(int id)
         {
-            // KỊCH BẢN 8: Kiểm tra quyền (Chỉ Admin/Manager mới được sửa)
+            // KỊCH BẢN 8: Kiểm tra quyền (Chỉ cùng userid mới được sửa)
             if (Session["TaiKhoan"] == null) return RedirectToAction("Login", "Admin");
             int roleIdSession = Convert.ToInt32(Session["RoleID"]);
             if (roleIdSession == 3 || roleIdSession == 4)
@@ -457,23 +451,23 @@ namespace PTDA_Demo.Controllers
             {
                 // KỊCH BẢN 2 & 3: Kiểm tra trùng Email/SĐT NHƯNG PHẢI LOẠI TRỪ CHÍNH USER ĐÓ RA
                 // (Nếu không loại trừ UserID hiện tại, khi họ bấm Lưu mà không đổi Email, hệ thống sẽ báo trùng)
-                bool isEmailExist = db.Users.Any(u => u.Email == model.Email && u.UserID != model.UserID);
-                if (isEmailExist)
-                    ModelState.AddModelError("Email", "Email này đã được sử dụng bởi một tài khoản khác. Vui lòng chọn email khác.");
+                //bool isEmailExist = db.Users.Any(u => u.Email == model.Email && u.UserID != model.UserID);
+                //if (isEmailExist)
+                //    ModelState.AddModelError("Email", "Email này đã được sử dụng bởi một tài khoản khác. Vui lòng chọn email khác.");
 
-                bool isPhoneExist = db.Users.Any(u => u.PhoneNumber == model.PhoneNumber && u.UserID != model.UserID);
-                if (isPhoneExist)
-                    ModelState.AddModelError("PhoneNumber", "Số điện thoại này đã tồn tại trong hệ thống.");
+               // bool isPhoneExist = db.Users.Any(u => u.PhoneNumber == model.PhoneNumber && u.UserID != model.UserID);
+                //if (isPhoneExist)
+                  //  ModelState.AddModelError("PhoneNumber", "Số điện thoại này đã tồn tại trong hệ thống.");
 
                 // KỊCH BẢN 1: Lưu thành công
-                if (!isEmailExist && !isPhoneExist)
-                {
+                //if (!isEmailExist && !isPhoneExist)
+                //{
                     var userToUpdate = db.Users.SingleOrDefault(u => u.UserID == model.UserID);
                     if (userToUpdate != null)
                     {
-                        userToUpdate.FullName = model.FullName;
-                        userToUpdate.Email = model.Email;
-                        userToUpdate.PhoneNumber = model.PhoneNumber;
+                        //userToUpdate.FullName = model.FullName;
+                        //userToUpdate.Email = model.Email;
+                        //userToUpdate.PhoneNumber = model.PhoneNumber;
                         userToUpdate.RoleID = model.RoleID;
                         // Lưu ý: Không cập nhật IsActive và Password ở đây
 
@@ -481,7 +475,7 @@ namespace PTDA_Demo.Controllers
                         TempData["WarningMessage"] = "Cập nhật thông tin tài khoản thành công.";
                         return RedirectToAction("AccountManagement", "Admin"); 
                     }
-                }
+                //}
             }
 
             PrepareEditRoleDropdown();
@@ -518,7 +512,7 @@ namespace PTDA_Demo.Controllers
                     TempData["WarningMessage"] = "Đã khóa tài khoản thành công.";
             }
 
-            return RedirectToAction("EditAccount", new { id = targetUserId });
+            return RedirectToAction("AccountManagement", new { id = targetUserId });
         }
 
         [HttpPost]

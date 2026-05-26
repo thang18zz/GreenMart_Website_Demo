@@ -20,13 +20,17 @@ namespace PTDA_Demo.Models
 
         // Kịch bản 4 & 5: Bắt buộc, độ dài 10 số, bắt đầu bằng 0 hoặc +84
         [Required(ErrorMessage = "Vui lòng không bỏ trống trường này.")]
-        [RegularExpression(@"^(0|\+84)[3|5|7|8|9][0-9]{8}$", ErrorMessage = "Số điện thoại không hợp lệ.")]
+        [RegularExpression(@"^(0|\+84)[35789][0-9]{8}$", ErrorMessage = "Số điện thoại không hợp lệ.")]
         public string PhoneNumber { get; set; }
 
         // Kịch bản 4 & 6: Bắt buộc, ít nhất 6 ký tự, có chữ và số
         [Required(ErrorMessage = "Vui lòng không bỏ trống trường này.")]
         [RegularExpression(@"^(?=.*[A-Za-z])(?=.*\d).{6,}$", ErrorMessage = "Mật khẩu phải có ít nhất 6 ký tự, bao gồm chữ và số.")]
         public string Password { get; set; }
+
+        [Required(ErrorMessage ="Vui lòng không bỏ trống trường này.")]
+        [Compare("Password",ErrorMessage = "Mật khẩu xác nhận không trùng khớp với mật khẩu mới.")]
+        public string ConfirmPassword { get; set; }
 
         // Kịch bản 4: Bắt buộc chọn vai trò
         [Required(ErrorMessage = "Vui lòng chọn vai trò cho tài khoản.")]

@@ -73,16 +73,22 @@
                         <p class="font-body-lg text-body-lg text-on-surface font-medium">@Model.CreatedAt</p>
                     </div>
                     @*<!-- Field: Department (Optional addition for realism) -->
-                        <div>
-                            <p class="font-label-sm text-label-sm text-on-surface-variant mb-1 uppercase tracking-wider">Phòng ban</p>
-                            <p class="font-body-lg text-body-lg text-on-surface font-medium">IT &amp; Operations</p>
-                        </div>*@
+            <div>
+                <p class="font-label-sm text-label-sm text-on-surface-variant mb-1 uppercase tracking-wider">Phòng ban</p>
+                <p class="font-body-lg text-body-lg text-on-surface font-medium">IT &amp; Operations</p>
+            </div>*@
                 </div>
                 <div class="mt-8 pt-6 border-t border-surface-container-highest">
                     <h4 class="font-label-lg text-label-lg text-on-surface mb-4">Security</h4>
                     <button onclick="location.href='@Url.Action("ChangePassword","Admin")'" class="font-label-lg text-label-lg text-primary hover:text-surface-tint flex items-center gap-2 transition-colors">
                         <span class="material-symbols-outlined text-[20px]">lock_reset</span>
                         Change Password
+                    </button>
+                </div>
+                <div class="mt-8 pt-6 border-t border-surface-container-highest">
+                    <button onclick="location.href='@Url.Action("ChangePassword","Admin")'" class="font-label-lg text-label-lg text-primary hover:text-surface-tint flex items-center gap-2 transition-colors">
+                        <span class="material-symbols-outlined text-[20px]">lock_reset</span>
+                        Change Profile
                     </button>
                 </div>
             </div>
