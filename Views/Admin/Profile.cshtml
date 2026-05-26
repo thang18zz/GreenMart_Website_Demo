@@ -12,6 +12,14 @@
     </div>
 }
 
+@if (TempData["WarningMessage"] != null)
+{
+    <div class="bg-tertiary-container/20 border border-tertiary text-on-surface-variant p-3 rounded-md mb-4 text-sm flex items-center gap-2">
+        <span class="material-symbols-outlined text-tertiary">info</span>
+        @TempData["WarningMessage"]
+    </div>
+}
+
 <!-- Profile Canvas -->
 <main class="flex-1 overflow-y-auto p-margin-mobile md:p-margin-desktop bg-surface-container-low">
     <div class="max-w-4xl mx-auto">
@@ -73,10 +81,10 @@
                         <p class="font-body-lg text-body-lg text-on-surface font-medium">@Model.CreatedAt</p>
                     </div>
                     @*<!-- Field: Department (Optional addition for realism) -->
-            <div>
-                <p class="font-label-sm text-label-sm text-on-surface-variant mb-1 uppercase tracking-wider">Phòng ban</p>
-                <p class="font-body-lg text-body-lg text-on-surface font-medium">IT &amp; Operations</p>
-            </div>*@
+                        <div>
+                            <p class="font-label-sm text-label-sm text-on-surface-variant mb-1 uppercase tracking-wider">Phòng ban</p>
+                            <p class="font-body-lg text-body-lg text-on-surface font-medium">IT &amp; Operations</p>
+                        </div>*@
                 </div>
                 <div class="mt-8 pt-6 border-t border-surface-container-highest">
                     <h4 class="font-label-lg text-label-lg text-on-surface mb-4">Security</h4>
@@ -86,7 +94,7 @@
                     </button>
                 </div>
                 <div class="mt-8 pt-6 border-t border-surface-container-highest">
-                    <button onclick="location.href='@Url.Action("ChangePassword","Admin")'" class="font-label-lg text-label-lg text-primary hover:text-surface-tint flex items-center gap-2 transition-colors">
+                    <button onclick="location.href='@Url.Action("EditAccountInformation","Admin", new {id=Model.UserID})'" class="font-label-lg text-label-lg text-primary hover:text-surface-tint flex items-center gap-2 transition-colors">
                         <span class="material-symbols-outlined text-[20px]">lock_reset</span>
                         Change Profile
                     </button>

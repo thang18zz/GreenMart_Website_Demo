@@ -1264,8 +1264,86 @@ namespace PTDA_Demo.Controllers
             return RedirectToAction("ProductManagement", "Admin");
         }
 
+        private void PrepareEditInformationDropdown()
+        {
+            var temp = (int)Session["RoleID"];
+            var roles = db.Roles.Where(c => c.RoleID == temp ).ToList();
+            ViewBag.RoleList = new SelectList(roles, "RoleID", "RoleName");
+        }
+
+        [HttpGet]
+        public ActionResult EditAccountInformation(int id)
+        {
+            // KỊCH BẢN 8: Kiểm tra quyền (Chỉ cùng userid mới được sửa)
+            if (Session["TaiKhoan"] == null) return RedirectToAction("Login", "Admin");
+            int userIdSession = Convert.ToInt32(Session["UserID"]);
+            if (userIdSession != id)
+            {
+                TempData["WarningMessage"] = "Bạn không có quyền thực hiện chức năng này.";
+                ClearSessions();
+                return RedirectToAction("Login", "Admin");
+            }
+
+            // Tìm user cần sửa trong CSDL
+            var user = db.Users.SingleOrDefault(u => u.UserID == id);
+            if (user == null) return HttpNotFound();
+
+            // Chuyển dữ liệu từ DB sang ViewModel để đẩy ra giao diện
+            var model = new EditAccountInformationViewModel
+            {
+                UserID = user.UserID,
+                FullName = user.FullName,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
+                RoleID = user.RoleID,
+                IsActive = user.IsActive ?? false
+            };
+
+            PrepareEditInformationDropdown();
+            return View(model);
+        }
 
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditAccountInformation(EditAccountInformationViewModel model)
+        {
+            // KỊCH BẢN 8: Check phân quyền
+            
+
+            if (ModelState.IsValid)
+            {
+                // KỊCH BẢN 2 & 3: Kiểm tra trùng Email/SĐT NHƯNG PHẢI LOẠI TRỪ CHÍNH USER ĐÓ RA
+                // (Nếu không loại trừ UserID hiện tại, khi họ bấm Lưu mà không đổi Email, hệ thống sẽ báo trùng)
+                bool isEmailExist = db.Users.Any(u => u.Email == model.Email && u.UserID != model.UserID);
+                if (isEmailExist)
+                    ModelState.AddModelError("Email", "Email này đã được sử dụng bởi một tài khoản khác. Vui lòng chọn email khác.");
+
+                 bool isPhoneExist = db.Users.Any(u => u.PhoneNumber == model.PhoneNumber && u.UserID != model.UserID);
+                if (isPhoneExist)
+                  ModelState.AddModelError("PhoneNumber", "Số điện thoại này đã tồn tại trong hệ thống.");
+
+                // KỊCH BẢN 1: Lưu thành công
+                if (!isEmailExist && !isPhoneExist)
+                {
+                var userToUpdate = db.Users.SingleOrDefault(u => u.UserID == model.UserID);
+                if (userToUpdate != null)
+                {
+                    userToUpdate.FullName = model.FullName;
+                    userToUpdate.Email = model.Email;
+                    userToUpdate.PhoneNumber = model.PhoneNumber;
+                    userToUpdate.RoleID = model.RoleID;
+
+                    db.SaveChanges();
+                    TempData["WarningMessage"] = "Cập nhật thông tin tài khoản thành công.";
+                        return RedirectToAction("Profile", "Admin");
+                }
+                }
+            }
+
+            PrepareEditInformationDropdown();
+            return View(model);
+        }
 
     }
 }

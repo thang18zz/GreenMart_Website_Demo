@@ -141,6 +141,7 @@
     <Compile Include="Models\CreateAccountViewModel.cs" />
     <Compile Include="Models\CreateCategoryViewModel.cs" />
     <Compile Include="Models\CreateProductViewModel.cs" />
+    <Compile Include="Models\EditAccountInformationViewModel.cs" />
     <Compile Include="Models\EditAccountViewModel.cs" />
     <Compile Include="Models\EditCategoryViewModel.cs" />
     <Compile Include="Models\EditProductViewModel.cs" />
@@ -219,6 +220,7 @@
     <Content Include="Views\Admin\EditProduct.cshtml" />
     <Content Include="Views\User\Profile.cshtml" />
     <Content Include="Views\Shared\_GreenMart_Dashboard_layout_CreateAccount.cshtml" />
+    <Content Include="Views\Admin\EditAccountInformation.cshtml" />
     <Content Include="Views\Admin\EditAccount.cshtml" />
   </ItemGroup>
   <ItemGroup>
