@@ -47,7 +47,7 @@
                     @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-red-500 text-xs italic mt-1 block" })
                 </div>
 
-                <div class="flex items-center gap-3 bg-gray-50 p-4 rounded-lg border border-gray-100">
+                @*<div class="flex items-center gap-3 bg-gray-50 p-4 rounded-lg border border-gray-100">
                     <div class="flex items-center h-5">
                         @Html.CheckBoxFor(m => m.IsActive, new { @class = "w-5 h-5 text-primary border-gray-300 rounded focus:ring-primary cursor-pointer" })
                     </div>
@@ -55,7 +55,7 @@
                         <label for="IsActive" class="font-semibold text-gray-700 cursor-pointer">Cho phép hiển thị (Hoạt động)</label>
                         <p class="text-gray-500 font-normal">Bỏ tích để tạm ẩn danh mục này khỏi cửa hàng của khách hàng.</p>
                     </div>
-                </div>
+                </div>*@
 
                 <div class="flex items-center justify-end gap-4 pt-6 border-t border-gray-100 mt-8">
                     <a href="@Url.Action("CategoryManagement", "Admin")" class="px-6 py-2.5 rounded-lg border border-gray-300 text-gray-700 font-medium hover:bg-gray-50 transition-colors">

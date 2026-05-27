@@ -762,7 +762,7 @@ namespace PTDA_Demo.Controllers
                 CategoryID = category.CategoryID,
                 CategoryName = category.CategoryName,
                 Description = category.Description,
-                IsActive = category.IsActive ?? false
+                //IsActive = category.IsActive ?? false
             };
 
             return View(model);
@@ -805,7 +805,7 @@ namespace PTDA_Demo.Controllers
                 {
                     categoryToUpdate.CategoryName = model.CategoryName;
                     categoryToUpdate.Description = model.Description;
-                    categoryToUpdate.IsActive = model.IsActive;
+                    //categoryToUpdate.IsActive = model.IsActive;
 
                     // KỊCH BẢN 6: EF tự động bắt được nếu không có thay đổi (No changes made)
                     // Hàm SaveChanges() sẽ bỏ qua câu lệnh UPDATE nếu dữ liệu cũ và mới y hệt nhau.
@@ -916,7 +916,7 @@ namespace PTDA_Demo.Controllers
 
                 return View(productsOnPage);
             }
-            catch (Exception ex)
+            catch (Exception )
             {
                 ViewBag.Error = "Không thể tải dữ liệu sản phẩm lúc này. Vui lòng thử lại sau.";
                 return View(new System.Collections.Generic.List<Product>());
@@ -1034,7 +1034,7 @@ namespace PTDA_Demo.Controllers
                     ProductName = model.ProductName.Trim(),
                     CategoryID = model.CategoryID,
                     Price = model.Price,
-                    StockQuantity = model.StockQuantity,
+                    StockQuantity = 0,
                     Description = model.Description,
                     ImageURL = fileName, // Có thể null nếu Kịch bản 2 xảy ra
                     IsActive = model.IsActive,
@@ -1163,7 +1163,7 @@ namespace PTDA_Demo.Controllers
                 productToUpdate.ProductName = model.ProductName.Trim();
                 productToUpdate.CategoryID = model.CategoryID;
                 productToUpdate.Price = model.Price;
-                productToUpdate.StockQuantity = model.StockQuantity;
+                productToUpdate.StockQuantity = productToUpdate.StockQuantity;
                 productToUpdate.Description = model.Description;
                 //productToUpdate.IsActive = model.IsActive;
 
@@ -1378,6 +1378,41 @@ namespace PTDA_Demo.Controllers
 
             return RedirectToAction("ProductManagement", new { id = targetProductId });
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ToggleCategoryStatus(int targetCategoryId)
+        {
+            if (Session["RoleID"] == null)
+                return RedirectToAction("Login", "Admin");
+            else
+            {
+                if ((int)Session["RoleID"] == 3 || (int)Session["RoleID"] == 4)
+                {
+                    ClearSessions();
+                    TempData["WarningMessage"] = "Bạn không thể khóa hoặc thay đổi trạng thái sản phẩm đang kinh doanh.";
+                    return RedirectToAction("Login", "Admin");
+                }
+            }
+
+
+
+            var category = db.Categories.SingleOrDefault(u => u.CategoryID == targetCategoryId);
+            if (category != null)
+            {
+                // KỊCH BẢN 5 & 6: Đảo ngược trạng thái hiện tại (Đang 1 thì thành 0, Đang 0 thì thành 1)
+                category.IsActive = !(category.IsActive ?? false);
+                db.SaveChanges();
+
+                if (category.IsActive == true)
+                    TempData["WarningMessage"] = "Đã mở khóa danh mục thành công.";
+                else
+                    TempData["WarningMessage"] = "Đã khóa danh mục thành công.";
+            }
+
+            return RedirectToAction("CategoryManagement", new { id = targetCategoryId });
+        }
+
 
 
     }

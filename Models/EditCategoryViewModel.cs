@@ -21,6 +21,6 @@ namespace PTDA_Demo.Models
         public string Description { get; set; }
 
         // Kịch bản 2: Thay đổi trạng thái hiển thị
-        public bool IsActive { get; set; }
+       // public bool IsActive { get; set; }
     }
 }

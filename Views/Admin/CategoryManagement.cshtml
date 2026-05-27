@@ -102,6 +102,25 @@
                                         Sửa
                                     </a>
 
+                                    @using (Html.BeginForm("ToggleCategoryStatus", "Admin", FormMethod.Post, new { @class = "inline m-0 p-0", onsubmit = "return confirm('Bạn có chắc chắn muốn thay đổi trạng thái sản phẩm này?');" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="targetCategoryId" value="@item.CategoryID" />
+                                        @*bool isCurrentUser = (Session["UserID"] != null && (int)Session["UserID"] == item.UserID);*@
+                                        if (item.IsActive == true)
+                                        {
+                                            <button type="submit" class="text-orange-500 hover:text-orange-700 font-medium bg-transparent border-none p-0 cursor-pointer transition-colors">
+                                                Khóa
+                                            </button>
+                                        }
+                                        else
+                                        {
+                                            <button type="submit" class="text-green-600 hover:text-green-800 font-medium bg-transparent border-none p-0 cursor-pointer transition-colors">
+                                                Mở khóa
+                                            </button>
+                                        }
+                                    }
+
                                     @using (Html.BeginForm("DeleteCategory", "Admin", FormMethod.Post, new { @class = "inline m-0 p-0", onsubmit = "return confirm('Bạn có chắc chắn muốn xóa danh mục này không? Thao tác này không thể hoàn tác.');" }))
                                     {
                                         @Html.AntiForgeryToken()

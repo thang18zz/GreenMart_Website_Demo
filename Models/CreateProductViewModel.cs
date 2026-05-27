@@ -24,7 +24,7 @@ namespace PTDA_Demo.Models
         public decimal Price { get; set; }
 
         // Kịch bản 5: Tồn kho số nguyên >= 0
-        [Range(0, int.MaxValue, ErrorMessage = "Số lượng tồn kho phải là số nguyên lớn hơn hoặc bằng 0.")]
+       // [Range(0, int.MaxValue, ErrorMessage = "Số lượng tồn kho phải là số nguyên lớn hơn hoặc bằng 0.")]
         public int StockQuantity { get; set; } = 0; // Mặc định là 0 (Kịch bản 2)
 
         public string Description { get; set; }
