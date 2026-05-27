@@ -1081,7 +1081,7 @@ namespace PTDA_Demo.Controllers
                 Price = product.Price,
                 StockQuantity = product.StockQuantity ?? 0,
                 Description = product.Description,
-                IsActive = product.IsActive ?? false,
+                //IsActive = product.IsActive ?? false,
                 ExistingImageURL = product.ImageURL // Gắn ảnh cũ vào model
             };
 
@@ -1165,12 +1165,12 @@ namespace PTDA_Demo.Controllers
                 productToUpdate.Price = model.Price;
                 productToUpdate.StockQuantity = model.StockQuantity;
                 productToUpdate.Description = model.Description;
-                productToUpdate.IsActive = model.IsActive;
+                //productToUpdate.IsActive = model.IsActive;
 
                 // KỊCH BẢN 8: EF sẽ tự bỏ qua nếu không có gì thay đổi (No changes made)
                 db.SaveChanges();
 
-                TempData["SuccessMessage"] = "Cập nhật thông tin sản phẩm thành công.";
+                TempData["WarningMessage"] = "Cập nhật thông tin sản phẩm thành công.";
                 return RedirectToAction("ProductManagement", "Admin");
             }
 
@@ -1344,6 +1344,41 @@ namespace PTDA_Demo.Controllers
             PrepareEditInformationDropdown();
             return View(model);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ToggleProductStatus(int targetProductId)
+        {
+            if (Session["RoleID"] == null)
+                return RedirectToAction("Login", "Admin");
+            else
+            {
+                if ((int)Session["RoleID"]==3 || (int)Session["RoleID"] == 4)
+                {
+                    ClearSessions(); 
+                    TempData["WarningMessage"] = "Bạn không thể khóa hoặc thay đổi trạng thái sản phẩm đang kinh doanh.";
+                    return RedirectToAction("Login", "Admin");
+                }
+            }
+
+            
+
+            var product = db.Products.SingleOrDefault(u => u.ProductID == targetProductId);
+            if (product != null)
+            {
+                // KỊCH BẢN 5 & 6: Đảo ngược trạng thái hiện tại (Đang 1 thì thành 0, Đang 0 thì thành 1)
+                product.IsActive = !(product.IsActive ?? false);
+                db.SaveChanges();
+
+                if (product.IsActive == true)
+                    TempData["WarningMessage"] = "Đã mở khóa sản phẩm thành công.";
+                else
+                    TempData["WarningMessage"] = "Đã khóa sản phẩm thành công.";
+            }
+
+            return RedirectToAction("ProductManagement", new { id = targetProductId });
+        }
+
 
     }
 }

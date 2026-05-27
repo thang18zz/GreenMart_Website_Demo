@@ -118,6 +118,25 @@
                                 <td class="px-6 py-4 text-right space-x-3">
                                     <a href="@Url.Action("EditProduct", "Admin", new { id = item.ProductID })" class="text-blue-600 hover:text-blue-800 font-medium">Sửa</a>
 
+                                    @using (Html.BeginForm("ToggleProductStatus", "Admin", FormMethod.Post, new { @class = "inline m-0 p-0", onsubmit = "return confirm('Bạn có chắc chắn muốn thay đổi trạng thái sản phẩm này?');" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="targetProductId" value="@item.ProductID" />
+                                        @*bool isCurrentUser = (Session["UserID"] != null && (int)Session["UserID"] == item.UserID);*@
+                                        if (item.IsActive == true)
+                                        {
+                                                <button type="submit" class="text-orange-500 hover:text-orange-700 font-medium bg-transparent border-none p-0 cursor-pointer transition-colors">
+                                                    Khóa
+                                                </button>   
+                                        }
+                                        else
+                                        {
+                                                <button type="submit" class="text-green-600 hover:text-green-800 font-medium bg-transparent border-none p-0 cursor-pointer transition-colors">
+                                                    Mở khóa
+                                                </button>
+                                        }
+                                    }
+
                                     @using (Html.BeginForm("DeleteProduct", "Admin", FormMethod.Post, new { @class = "inline", onsubmit = "return confirm('Bạn có chắc chắn muốn xóa sản phẩm này?');" }))
                                     {
                                         @Html.AntiForgeryToken()

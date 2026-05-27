@@ -30,7 +30,7 @@ namespace PTDA_Demo.Models
         public string Description { get; set; }
 
         // Kịch bản 3: Trạng thái hiển thị
-        public bool IsActive { get; set; }
+        //public bool IsActive { get; set; }
 
         // --- XỬ LÝ HÌNH ẢNH ---
         // Giữ lại đường dẫn ảnh cũ từ Database
