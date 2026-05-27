@@ -102,7 +102,7 @@
                                         Sửa
                                     </a>
 
-                                    @using (Html.BeginForm("ToggleCategoryStatus", "Admin", FormMethod.Post, new { @class = "inline m-0 p-0", onsubmit = "return confirm('Bạn có chắc chắn muốn thay đổi trạng thái sản phẩm này?');" }))
+                                    @using (Html.BeginForm("ToggleCategoryStatus", "Admin", FormMethod.Post, new { @class = "inline m-0 p-0", onsubmit = "return confirm('Bạn có chắc chắn muốn thay đổi trạng thái danh mục sản phẩm này?');" }))
                                     {
                                         @Html.AntiForgeryToken()
                                         <input type="hidden" name="targetCategoryId" value="@item.CategoryID" />
